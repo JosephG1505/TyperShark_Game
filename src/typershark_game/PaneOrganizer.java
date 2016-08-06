@@ -18,22 +18,26 @@ public class PaneOrganizer {
     private TextField nombre;
     private TextField nickName;
     private Button Start;
+    private Button Records;
+    private Button End;
+    private Button Pause;
     private String facil;
     private String normal;
     private String dificil;
+    Oceano fondo = new Oceano();
     
     
     public PaneOrganizer(){
         _raiz=new BorderPane();
-        _raiz.setTop(this.setupTitulo());
-        
-        
+        _raiz.setTop(this.setupTOP());
+        _raiz.setCenter(this.setupCenter());
+        _raiz.setBottom(this.setupBottom());
     }
     
     
     /**Metodo set que propociona el título de nuestro Pane
      * @return VBox llamado TopCenter*/
-    public final VBox setupTitulo(){
+    public final VBox setupTOP(){
         VBox TopCenter = new VBox();
         Label titulo = new Label("Bienvenido al Juego de Teclado más rápido");
         titulo.setFont(Font.font("Century Gothic", 16));
@@ -87,6 +91,29 @@ public class PaneOrganizer {
         return TextoNombre;
             
     }
+    
+    
+    /**Metodo set que propociona los elementos Center de nuestro Pane
+    * @return VBox correspondiente al fondo de nuestro oceano*/
+    public final VBox setupCenter(){
+        return fondo.getBackground();
+    }
+    
+    
+    
+    /**Metodo set que propociona los elementos Center de nuestro Pane
+     * @return VBox correspondiente al fondo de nuestro oceano*/
+    public final HBox setupBottom(){
+        HBox Botones = new HBox();
+        Pause = new Button("Pause");
+        End = new Button("Salir del juego");
+        Botones.getChildren().addAll(Pause,End);
+        Botones.setAlignment(Pos.CENTER);
+        Botones.setSpacing(50);
+        
+        return Botones;
+    }
+    
     
     
     public BorderPane getRoot(){
