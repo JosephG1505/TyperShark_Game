@@ -34,4 +34,74 @@ public class Shark {
     public void mover(){
         
     }
+    
+    /********Nuevo*********/
+    /*
+    private ImageView imagen;
+    private Label label;
+    private Label text;
+    private Pane _pane;
+    
+    private int x, y;
+    private String word;
+    private boolean visible;
+    String s;
+    private int speed;
+
+
+    public Tiburon(int x, int y, String word, int speed) throws IOException {
+        
+        this._pane = new Pane();
+        InputStream img = Files.newInputStream(Paths.get("src/typershark/proyect/imagenes/Tiburon.png"));
+        Image imgTiburon = new Image(img);
+        img.close();
+
+        this.imagen = new ImageView(imgTiburon);
+        this.imagen.setFitHeight(600);
+        this.imagen.setFitHeight(600);
+
+        _pane.getChildren().addAll(imagen);
+
+        this.visible=true;
+        this.x=x;
+        this.y=y;
+        this.speed=speed;
+        this.word=word;
+    }
+
+    public ImageView getImagen() {
+        return imagen;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getWord() {
+        return word;
+    }
+    
+    public boolean isVisible(){
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+    
+    public void move() {
+        x -= speed;
+        if (x == 0){
+            visible = false;
+          Buzo.getTiburon().remove(this);
+          Buzo.die(false);
+        }
+    }
+    
+    
+    */
 }
