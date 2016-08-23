@@ -6,6 +6,8 @@
 package typershark_game;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -24,36 +28,57 @@ import javafx.scene.image.ImageView;
  */
 public class Buzo extends Thread{
     
-    private int level = 1;
-    private int profundidad = 0;
+    private String nombre;
+    private int level;
+    private int profundidad;
+    private int puntaje;
+    private int vidas;
+    
     private ImageView image;
+    
     private static ArrayList<Shark> tiburones;
     private ArrayList<String> palabras;
+    
     private static boolean alive = true;
+    
+    
 
     public Buzo(){
-        //InputStream img = Files.newInputStream(Paths.get("src/typershark/proyect/imagenes/Buceador.jpg"));
-        //Image imgBuzo = new Image(img);
-        //img.close();
-
-        //this.image = new ImageView(imgBuzo);
-        this.image.setFitHeight(600);
-        this.image.setFitHeight(600);
+        
+        this.level = 1;
+        this.profundidad = 0;
+        this.puntaje = 0;
+        this.vidas = 3;
+        
+        this.image = new ImageView(new Image("buzo.gif"));
+        this.image.setFitWidth(60);
+        this.image.setFitHeight(60);
         
         this.tiburones = new ArrayList<Shark>();
-        this.palabras = new ArrayList<String>();
+        this.palabras = new ArrayList<String>(); 
         
-        try{
-            palabras = getPalabras();
-        }catch(Exception e){}
     }
 
-    public ImageView getImage() {
-        return image;
+    public Buzo(String nombre, int puntaje) {
+        this.nombre = nombre;
+        this.puntaje = puntaje;
     }
     
-    public static ArrayList<Shark> getTiburon(){
+
+    public static ArrayList<Shark> getTiburones() {
         return tiburones;
+    }
+
+    public static void setTiburones(ArrayList<Shark> aTiburones) {
+        tiburones = aTiburones;
+    }
+
+    public static boolean isVivir() {
+        return alive;
+    }
+
+    public static void setAlive(boolean aAlive) {
+        alive = aAlive;
     }
     
     public void fire(){
@@ -120,7 +145,7 @@ public class Buzo extends Thread{
     	
     	ArrayList<String> words = new ArrayList<String>();
     	
-    	BufferedReader Read = new BufferedReader(new FileReader("word.txt"));
+    	BufferedReader Read = new BufferedReader(new FileReader("palabras.txt"));
     	String line = Read.readLine();
     	while (line != null){
     		words.add(line);
@@ -128,9 +153,49 @@ public class Buzo extends Thread{
     		
     	}
     		Read.close();
+                
+                
+//        File archivo = new File("palabras.txt");
+//        word = new ArrayList<String>();
+//
+//        try {
+//            Scanner sc = new Scanner(archivo);
+//            while (sc.hasNext()) {
+//                String w = sc.nextLine();
+//                word.add(w);
+//            }
+//            sc.close();
+//            
+//        } catch (FileNotFoundException ex) {
+//            System.out.println(ex.getMessage());
+//        }
     	
     	return words;
     	
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getPuntaje() {
+        return puntaje;
+    }
+
+    public void setPuntaje(int puntaje) {
+        this.puntaje = puntaje;
+    }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public void setImage(ImageView image) {
+        this.image = image;
     }
     
 }

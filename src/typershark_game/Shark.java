@@ -35,7 +35,7 @@ public class Shark extends Thread {
         this.velocidad = velocidad;
         
         //load and displays image
-        this.tiburon = new Image("tiburon.jpg");
+        this.tiburon = new Image("tiburon.gif");
         this.imageView = new ImageView();
         this.imageView.setImage(tiburon);
         
@@ -121,8 +121,8 @@ public class Shark extends Thread {
        x -= velocidad;
         if (x == 0){
             visible = false;
-            Buzo.getTiburon().remove(this);
-            Buzo.die(false);
+            Buzo.getTiburones().remove(this);
+            Buzo.setAlive(false);
         } 
     }
     
@@ -135,13 +135,16 @@ public class Shark extends Thread {
         }
         
     }
-    
+    //*******
+    //considerar setLabelintoPaane y validar palabra para eliminar un pez
     public void setLabelintoPane(String p){
         _pane.getChildren().remove(_concatLabel);
         setLabel(p);
         _pane.getChildren().addAll(_concatLabel);
     
     }
+    
+    
     
     public Boolean validarPalabra(String palabra){
         //int longt = palabra.length();
@@ -151,6 +154,7 @@ public class Shark extends Thread {
         velocidad = velocidad +1;
         return false;
     }
+    //*********
     
     //pintar cada letra que voy acertando
     public void pintar(String a){
@@ -166,6 +170,7 @@ public class Shark extends Thread {
             }
         }
     }
+    
     
     @Override
     public void run(){}
