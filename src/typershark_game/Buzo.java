@@ -5,29 +5,42 @@
  */
 package typershark_game;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 /**
  *
  * @author RXLM
  */
 public class Buzo extends Thread{
-    /*
+    
     private int level = 1;
     private int profundidad = 0;
     private ImageView image;
-    private static ArrayList<Tiburon> tiburones;
+    private static ArrayList<Shark> tiburones;
     private ArrayList<String> palabras;
     private static boolean alive = true;
 
-    public Buzo() throws IOException {
-        InputStream img = Files.newInputStream(Paths.get("src/typershark/proyect/imagenes/Buceador.jpg"));
-        Image imgBuzo = new Image(img);
-        img.close();
+    public Buzo(){
+        //InputStream img = Files.newInputStream(Paths.get("src/typershark/proyect/imagenes/Buceador.jpg"));
+        //Image imgBuzo = new Image(img);
+        //img.close();
 
-        this.image = new ImageView(imgBuzo);
+        //this.image = new ImageView(imgBuzo);
         this.image.setFitHeight(600);
         this.image.setFitHeight(600);
         
-        this.tiburones = new ArrayList<Tiburon>();
+        this.tiburones = new ArrayList<Shark>();
         this.palabras = new ArrayList<String>();
         
         try{
@@ -39,11 +52,11 @@ public class Buzo extends Thread{
         return image;
     }
     
-    public static ArrayList<Tiburon> getTiburon(){
+    public static ArrayList<Shark> getTiburon(){
         return tiburones;
     }
     
-    public void fire() throws IOException {
+    public void fire(){
     	Random rand = new Random();
     	int index;
     	
@@ -56,16 +69,16 @@ public class Buzo extends Thread{
     	if(tiburones.size()<=level){
             switch(rand.nextInt(4)){
     	
-            case 0: tiburones.add(new Tiburon(2000,70,word,rand.nextInt(4)+1));
+            case 0: tiburones.add(new Shark(2000,70,word,rand.nextInt(4)+1));
     			palabras.remove(index);
     		break;
-            case 1:	tiburones.add(new Tiburon(2000,210,word,rand.nextInt(4)+1));
+            case 1:	tiburones.add(new Shark(2000,210,word,rand.nextInt(4)+1));
     			palabras.remove(index);
     		break;
-            case 2:	tiburones.add(new Tiburon(2000,350,word,rand.nextInt(4)+1));
+            case 2:	tiburones.add(new Shark(2000,350,word,rand.nextInt(4)+1));
     			palabras.remove(index);
     		break;
-            case 3:	tiburones.add(new Tiburon(2000,490,word,rand.nextInt(4)+1));
+            case 3:	tiburones.add(new Shark(2000,490,word,rand.nextInt(4)+1));
     			palabras.remove(index);
     		break;
     		
@@ -85,11 +98,7 @@ public class Buzo extends Thread{
     	}catch(Exception e){}
     	if(profundidad%1000 == 0)
     		level++;
-                try {
-                    fire();
-                } catch (IOException ex) {
-                    Logger.getLogger(Buzo.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        fire();
     	
     	if(profundidad % 500 == 0)
     		level++;
@@ -123,5 +132,5 @@ public class Buzo extends Thread{
     	return words;
     	
     }
-    */
+    
 }
