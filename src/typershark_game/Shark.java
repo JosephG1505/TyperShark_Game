@@ -1,19 +1,24 @@
 
 package typershark_game;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 
-public class Shark extends Thread {
+public abstract class Shark extends Thread {
     
-    private Pane _pane;
+    private StackPane _stackpane;
     //posicion del tiburon
     private int x, y;
+    //
+    private boolean vida;
     //palabra a tipear
     private String _palabra;
     private Label _text;
@@ -31,6 +36,7 @@ public class Shark extends Thread {
     public Shark(int x, int y, String _palabra, int velocidad) {
         this.x = x;
         this.y = y;
+        this.vida = true;
         this._palabra = _palabra;
         this.velocidad = velocidad;
         
@@ -40,8 +46,8 @@ public class Shark extends Thread {
         this.imageView.setImage(tiburon);
         
         //set the image in Pane
-        this._pane = new Pane();
-        this._pane.getChildren().addAll(imageView);
+        this._stackpane = new StackPane();
+        this._stackpane.getChildren().addAll(imageView);
         
     }
 
@@ -53,12 +59,12 @@ public class Shark extends Thread {
         this.visible = visible;
     }
 
-    public Pane getPane() {
-        return _pane;
+    public StackPane getPane() {
+        return _stackpane;
     }
 
-    public void setPane(Pane _pane) {
-        this._pane = _pane;
+    public void setPane(StackPane _stackpane) {
+        this._stackpane = _stackpane;
     }
 
     public int getX() {
@@ -138,9 +144,9 @@ public class Shark extends Thread {
     //*******
     //considerar setLabelintoPaane y validar palabra para eliminar un pez
     public void setLabelintoPane(String p){
-        _pane.getChildren().remove(_concatLabel);
+        _stackpane.getChildren().remove(_concatLabel);
         setLabel(p);
-        _pane.getChildren().addAll(_concatLabel);
+        _stackpane.getChildren().addAll(_concatLabel);
     
     }
     
@@ -171,9 +177,36 @@ public class Shark extends Thread {
         }
     }
     
+    protected abstract double getLimite();
     
     @Override
-    public void run(){}
+    public void run(){
+        
+        while(vida){
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    
+                    _stackpane.setTranslateX(_stackpane.getTranslateX()-3);
+                    if(_stackpane.translateXProperty().lessThan(getLimite()).getValue()){
+                        vida = false;
+                        //cruzo = true;
+                        _stackpane.setOpacity(0.0);
+                        //Oceano.actualizarOceano();
+                    }
+                    
+                }
+            });
+            
+            try {
+                Shark.sleep((int) velocidad);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Shark.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }
+    
+    }
     
     
     /********Nuevo*********/

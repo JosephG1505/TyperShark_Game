@@ -32,7 +32,7 @@ public class Buzo extends Thread{
     private int level;
     private int profundidad;
     private int puntaje;
-    private int vidas;
+    //private int vidas;
     
     private ImageView image;
     
@@ -48,7 +48,7 @@ public class Buzo extends Thread{
         this.level = 1;
         this.profundidad = 0;
         this.puntaje = 0;
-        this.vidas = 3;
+        //this.vidas = 3;
         
         this.image = new ImageView(new Image("buzo.gif"));
         this.image.setFitWidth(60);
@@ -81,38 +81,39 @@ public class Buzo extends Thread{
         alive = aAlive;
     }
     
-    public void fire(){
-    	Random rand = new Random();
-    	int index;
-    	
-    	index = rand.nextInt(palabras.size());
-    	String word = palabras.get(index);
-    	
-    	System.out.println(index);
-    
-    	
-    	if(tiburones.size()<=level){
-            switch(rand.nextInt(4)){
-    	
-            case 0: tiburones.add(new Shark(2000,70,word,rand.nextInt(4)+1));
-    			palabras.remove(index);
-    		break;
-            case 1:	tiburones.add(new Shark(2000,210,word,rand.nextInt(4)+1));
-    			palabras.remove(index);
-    		break;
-            case 2:	tiburones.add(new Shark(2000,350,word,rand.nextInt(4)+1));
-    			palabras.remove(index);
-    		break;
-            case 3:	tiburones.add(new Shark(2000,490,word,rand.nextInt(4)+1));
-    			palabras.remove(index);
-    		break;
-    		
-    	
-            }
-    	}
-       
-    	
-    }
+//    public void fire(){
+//    	Random rand = new Random();
+//    	int index;
+//    	
+//    	index = rand.nextInt(palabras.size());
+//    	String word = palabras.get(index);
+//    	
+//    	System.out.println(index);
+//    
+//    	
+//    	if(tiburones.size()<=level){
+//            
+//            switch(rand.nextInt(4)){
+//    	
+//            case 0: tiburones.add(new Shark(2000,70,word,rand.nextInt(4)+1));
+//    			palabras.remove(index);
+//    		break;
+//            case 1:	tiburones.add(new Shark(2000,210,word,rand.nextInt(4)+1));
+//    			palabras.remove(index);
+//    		break;
+//            case 2:	tiburones.add(new Shark(2000,350,word,rand.nextInt(4)+1));
+//    			palabras.remove(index);
+//    		break;
+//            case 3:	tiburones.add(new Shark(2000,490,word,rand.nextInt(4)+1));
+//    			palabras.remove(index);
+//    		break;
+//    		
+//    	
+//            }
+//    	}
+//       
+//    	
+//    }
     
     public void run(){
     	
@@ -123,7 +124,7 @@ public class Buzo extends Thread{
     	}catch(Exception e){}
     	if(profundidad%1000 == 0)
     		level++;
-        fire();
+        //fire();
     	
     	if(profundidad % 500 == 0)
     		level++;
@@ -141,34 +142,23 @@ public class Buzo extends Thread{
     	alive = d;
     }
     
-    public ArrayList<String> getPalabras() throws Exception{
+    public ArrayList<String> getPalabras(){
     	
     	ArrayList<String> words = new ArrayList<String>();
     	
-    	BufferedReader Read = new BufferedReader(new FileReader("palabras.txt"));
-    	String line = Read.readLine();
-    	while (line != null){
-    		words.add(line);
-    		line = Read.readLine();
-    		
-    	}
-    		Read.close();
-                
-                
-//        File archivo = new File("palabras.txt");
-//        word = new ArrayList<String>();
-//
-//        try {
-//            Scanner sc = new Scanner(archivo);
-//            while (sc.hasNext()) {
-//                String w = sc.nextLine();
-//                word.add(w);
-//            }
-//            sc.close();
-//            
-//        } catch (FileNotFoundException ex) {
-//            System.out.println(ex.getMessage());
-//        }
+    	File archivo = new File("palabras.txt");
+        palabras = new ArrayList<String>();
+
+        try {
+            Scanner sc = new Scanner(archivo);
+            while (sc.hasNext()) {
+                String word = sc.nextLine();
+                palabras.add(word);
+            }
+            sc.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
     	
     	return words;
     	

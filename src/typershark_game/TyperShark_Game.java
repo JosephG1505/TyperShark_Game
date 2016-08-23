@@ -10,8 +10,8 @@ public class TyperShark_Game extends Application {
     
     @Override
     public void start(Stage stage) {
-        PaneOrganizer organizador = new PaneOrganizer();
-        Scene scene = new Scene(organizador.getRoot(), 900, 500);
+        Oceano organizador = new Oceano();
+        Scene scene = new Scene(organizador.getOceano(), 900, 500);
         stage.setScene(scene);
         stage.setTitle("TypeShark!");
         stage.show();
