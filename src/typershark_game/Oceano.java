@@ -1,9 +1,16 @@
 
 package typershark_game;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -16,22 +23,63 @@ public class Oceano {
     
     
     private Pane _oceano;
-    private Buzo _buzo;
+    private Shark _shark;
+    //private Buzo _buzo;
     private ArrayList<String> palabras;
+    private ArrayList<Shark> _tiburones;
     
     
     public Oceano() {
         
         this._oceano = new Pane();
-        this._buzo = new Buzo();
-        this.palabras = this._buzo.getPalabras();
+        this.sharkToArray();
+        this.addSharktoOcean();
+        System.out.println("321123213213213231321213231");
+
+        _oceano.getChildren();
+        System.out.println("weiucbiwuegciwucicgiwciuwgeciuwegcwieueiwc");
+        //this._buzo = new Buzo();
+
+
+        
+//        _shark.setTiburon(palabras.get(0));
+//        _shark.pintar("h");
+//        _shark.pintar("e");
+        
+        //_shark.setPalabra("hola");
+        //_shark.listener();
+        //addShark(_shark);
+        
+        //_oceano.getChildren().addAll(_buzo.getImage(),_shark.getPane());
+        
+
     }
     
-    public void addShark(Shark _shark){
-        _shark.setVelocidad(1);
-        _buzo.getTiburones().add(_shark);
-        _shark.start();
+    public void sharkToArray(){
+        loadPalabras();
+        this._shark = new Shark(1);
+        //_shark.start();
+        this._tiburones = new ArrayList<>();
+        for(String p : palabras){
+            this._shark.setTiburon(p);
+            _tiburones.add(_shark);
+            System.out.println("shark in the tank");
+            
+        }
+        
+    }
     
+//    public void addShark(Shark _shark){
+//        _shark.setVelocidad(1);
+//        //_buzo.getTiburones().add(_shark);
+//        _shark.start();
+//    
+//    }
+    
+    public void addSharktoOcean(){
+        for(Shark s : _tiburones){
+            _oceano.getChildren().addAll(s.getPane());
+        }
     }
 
     public Pane getOceano() {
@@ -42,13 +90,13 @@ public class Oceano {
         this._oceano = _oceano;
     }
 
-    public Buzo getBuzo() {
-        return _buzo;
-    }
+//    public Buzo getBuzo() {
+//        return _buzo;
+//    }
 
-    public void setBuzo(Buzo _buzo) {
-        this._buzo = _buzo;
-    }
+//    public void setBuzo(Buzo _buzo) {
+//        this._buzo = _buzo;
+//    }
 
     public ArrayList<String> getPalabras() {
         return palabras;
@@ -56,6 +104,24 @@ public class Oceano {
 
     public void setPalabras(ArrayList<String> palabras) {
         this.palabras = palabras;
+    }
+    
+    public void loadPalabras(){
+    	
+    	File archivo = new File("palabras.txt");
+        palabras = new ArrayList<String>();
+
+        try {
+            Scanner sc = new Scanner(archivo);
+            while (sc.hasNext()) {
+                String word = sc.nextLine();
+                palabras.add(word);
+            }
+            sc.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+    	
     }
     
 }

@@ -1,160 +1,130 @@
 
 package typershark_game;
 
+import javafx.util.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 
-public abstract class Shark extends Thread {
+public class Shark extends Thread {
     
     private StackPane _stackpane;
-    //posicion del tiburon
-    private int x, y;
-    //
+    
+    //Concatena los label - cada letra es un label
+    private HBox _concatLabel;
+
+    Timeline _time;
     private boolean vida;
+    
     //palabra a tipear
     private String _palabra;
     private Label _text;
     
-    //Concatena los label - cada letra es un label
-    private HBox _concatLabel;
     //imagen a mostrar
     private ImageView imageView;
     private Image tiburon;
-    //visible para mostrar en pantalla
-    private boolean visible;
+
     //velocidad dependiendo del nivel
     private int velocidad;
+    
+    private int aciertos;
 
-    public Shark(int x, int y, String _palabra, int velocidad) {
-        this.x = x;
-        this.y = y;
+    
+    
+    
+    
+    public Shark(int velocidad) {
+
+        super("SharkThread");
+        
+        this.aciertos = 0;
         this.vida = true;
-        this._palabra = _palabra;
+        
         this.velocidad = velocidad;
         
         //load and displays image
-        this.tiburon = new Image("tiburon.gif");
+        this.tiburon = new Image("/images/tiburon.gif");
         this.imageView = new ImageView();
         this.imageView.setImage(tiburon);
         
-        //set the image in Pane
         this._stackpane = new StackPane();
-        this._stackpane.getChildren().addAll(imageView);
+        _text.setOnKeyPressed(new SharkHandler() );
         
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    public StackPane getPane() {
-        return _stackpane;
-    }
-
-    public void setPane(StackPane _stackpane) {
-        this._stackpane = _stackpane;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public String getPalabra() {
-        return _palabra;
-    }
-
-    public void setPalabra(String _palabra) {
-        this._palabra = _palabra;
-    }
-
-    public Label getText() {
-        return _text;
-    }
-
-    public void setText(Label _text) {
-        this._text = _text;
-    }
-
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
-
-    public Image getTiburon() {
-        return tiburon;
-    }
-
-    public void setTiburon(Image tiburon) {
-        this.tiburon = tiburon;
-    }
-
-    public int getVelocidad() {
-        return velocidad;
-    }
-
-    public void setVelocidad(int velocidad) {
-        this.velocidad = velocidad;
+    
+    
+    
+    /*1*/
+    public void setTiburon(String palabra) {
+        setLabel(palabra);
+        _stackpane.getChildren().addAll(imageView, _concatLabel);
+        
     }
     
-    public void mover(){
-       x -= velocidad;
-        if (x == 0){
-            visible = false;
-            Buzo.getTiburones().remove(this);
-            Buzo.setAlive(false);
-        } 
+
+    public class SharkHandler implements EventHandler<KeyEvent>{
+
+        @Override
+        public void handle(KeyEvent event) {
+            if(validarPalabra(event.getCharacter())){
+                pintar(event.getCharacter());
+                event.consume();
+                System.out.println(event.getCharacter());
+            }
+        }
+//        _text.setOnKeyPressed((KeyEvent event) -> {
+//               if(validarPalabra(event.getCharacter())){
+//                   pintar(event.getCharacter());
+//                   event.consume();
+//                   System.out.println(event.getCharacter());
+//               }  
+//
+//        }); 
+    
     }
+
     
     //antes debemos crear un metodo para cargar palabras de un archivo
     public void setLabel(String palabra){
         _concatLabel = new HBox();
+        _concatLabel.setAlignment(Pos.CENTER);
         for (int i = 0; i < palabra.length(); i++) {
             Label l = new Label(Character.toString(palabra.charAt(i)));
+            l.setStyle("-fx-text-fill: white;-fx-font: bold 17 serif");
             _concatLabel.getChildren().addAll(l);
         }
         
     }
     //*******
     //considerar setLabelintoPaane y validar palabra para eliminar un pez
-    public void setLabelintoPane(String p){
+    //considerar utilizarlo en Oceano Class
+    public void setPalabra(String palabra){
         _stackpane.getChildren().remove(_concatLabel);
-        setLabel(p);
+        setLabel(palabra);
         _stackpane.getChildren().addAll(_concatLabel);
     
     }
     
-    
-    
-    public Boolean validarPalabra(String palabra){
+    public Boolean validarPalabra(String letra){
         //int longt = palabra.length();
-        if(((Label) this._concatLabel.getChildren().get(0)).getText().equals(palabra) ) {
+        if(((Label) this._concatLabel.getChildren().get(0)).getText().equals(letra) ) {
             return true;
         }
         velocidad = velocidad +1;
@@ -177,7 +147,31 @@ public abstract class Shark extends Thread {
         }
     }
     
-    protected abstract double getLimite();
+    //protected abstract double getLimite();
+    
+    public boolean kill(){
+        if(aciertos==this._concatLabel.getChildren().size()){            
+            this.vida = false;
+            System.out.println("Shark died");
+            aciertos = 0;
+            //selected.set(false);
+            
+            _time = new Timeline();
+            
+            _time.setCycleCount(1);
+            _time.getKeyFrames().add(new KeyFrame(Duration.seconds(1), e->{
+                    //Oceano.actualizarOceano();
+                },
+                new KeyValue(_stackpane.translateYProperty(), _stackpane.getTranslateY()-30.05,Interpolator.SPLINE(0.295,0.800,0.305,1.000)),
+                new KeyValue(_stackpane.opacityProperty(), 0f)
+            ));            
+            _time.play();
+            
+            return true;
+        }
+        return false;
+    }
+    //protected abstract double getLimite();
     
     @Override
     public void run(){
@@ -188,12 +182,12 @@ public abstract class Shark extends Thread {
                 public void run() {
                     
                     _stackpane.setTranslateX(_stackpane.getTranslateX()-3);
-                    if(_stackpane.translateXProperty().lessThan(getLimite()).getValue()){
-                        vida = false;
-                        //cruzo = true;
-                        _stackpane.setOpacity(0.0);
-                        //Oceano.actualizarOceano();
-                    }
+//                    if(_stackpane.translateXProperty().lessThan(getLimite()).getValue()){
+//                        vida = false;
+//                        //cruzo = true;
+//                        _stackpane.setOpacity(0.0);
+//                        //Oceano.actualizarOceano();
+//                    }
                     
                 }
             });
@@ -208,8 +202,86 @@ public abstract class Shark extends Thread {
     
     }
     
+    //default methods
     
-    /********Nuevo*********/
+    public StackPane getPane() {
+        return _stackpane;
+    }
+
+    public void setStackPane(StackPane _stackpane) {
+        this._stackpane = _stackpane;
+    }
+
+    
+    public HBox getConcatLabel() {
+        return _concatLabel;
+    }
+
+    public void setConcatLabel(HBox _concatLabel) {
+        this._concatLabel = _concatLabel;
+    }
+
+    
+    public boolean isVida() {
+        return vida;
+    }
+
+    public void setVida(boolean vida) {
+        this.vida = vida;
+    }
+    
+    
+    public String getPalabra() {
+        return _palabra;
+    }
+
+    
+    public Label getText() {
+        return _text;
+    }
+
+    public void setText(Label _text) {
+        this._text = _text;
+    }
+
+    
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public Image getTiburon() {
+        return tiburon;
+    }
+    
+    
+    public int getVelocidad() {
+        return velocidad;
+    }
+
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+    }
+    
+    
+}
+
+
+
+
+
+
+
+//scratch
+
+
+
+
+
+/********Nuevo*********/
     /*
     private ImageView imagen;
     private Label label;
@@ -276,6 +348,4 @@ public abstract class Shark extends Thread {
         }
     }
     
-    
     */
-}

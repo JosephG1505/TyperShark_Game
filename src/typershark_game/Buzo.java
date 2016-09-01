@@ -50,12 +50,12 @@ public class Buzo extends Thread{
         this.puntaje = 0;
         //this.vidas = 3;
         
-        this.image = new ImageView(new Image("buzo.gif"));
+        this.image = new ImageView(new Image("/images/buzo.gif"));
         this.image.setFitWidth(60);
         this.image.setFitHeight(60);
         
         this.tiburones = new ArrayList<Shark>();
-        this.palabras = new ArrayList<String>(); 
+        //this.palabras = new ArrayList<>(); 
         
     }
 
@@ -140,28 +140,6 @@ public class Buzo extends Thread{
     
     public static void die(boolean d){
     	alive = d;
-    }
-    
-    public ArrayList<String> getPalabras(){
-    	
-    	ArrayList<String> words = new ArrayList<String>();
-    	
-    	File archivo = new File("palabras.txt");
-        palabras = new ArrayList<String>();
-
-        try {
-            Scanner sc = new Scanner(archivo);
-            while (sc.hasNext()) {
-                String word = sc.nextLine();
-                palabras.add(word);
-            }
-            sc.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
-        }
-    	
-    	return words;
-    	
     }
 
     public int getLevel() {
