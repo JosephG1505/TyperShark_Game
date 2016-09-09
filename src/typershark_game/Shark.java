@@ -19,7 +19,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
 
 public class Shark extends Thread {
@@ -64,7 +63,8 @@ public class Shark extends Thread {
         this.imageView.setImage(tiburon);
         
         this._stackpane = new StackPane();
-        _text.setOnKeyPressed(new SharkHandler() );
+        //_text.setOnKeyPressed(new SharkHandler() );
+        //init();
         
     }
 
@@ -83,10 +83,12 @@ public class Shark extends Thread {
 
         @Override
         public void handle(KeyEvent event) {
-            if(validarPalabra(event.getCharacter())){
-                pintar(event.getCharacter());
+            //validarPalabra(event.getText())
+            if(event.getCode() == KeyCode.ENTER){
+                //pintar(event.getText());
+                System.out.println(event.getText());
                 event.consume();
-                System.out.println(event.getCharacter());
+                
             }
         }
 //        _text.setOnKeyPressed((KeyEvent event) -> {
@@ -99,7 +101,22 @@ public class Shark extends Thread {
 //        }); 
     
     }
-
+    
+    public void init(){
+        _text.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent event) {
+                char car = event.getCharacter().charAt(0);
+                
+                if (Character.isLetter(car)) {
+                    pintar(Character.toString(car));
+                    event.consume();
+                }
+            }
+        
+        });
+    
+    }
     
     //antes debemos crear un metodo para cargar palabras de un archivo
     public void setLabel(String palabra){

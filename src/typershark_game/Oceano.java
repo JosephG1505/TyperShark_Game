@@ -79,6 +79,7 @@ public class Oceano {
     public void addSharktoOcean(){
         for(Shark s : _tiburones){
             _oceano.getChildren().addAll(s.getPane());
+            //_shark.init();
         }
     }
 
