@@ -18,10 +18,10 @@ public abstract class Pez {
     protected Pane _pane;
     protected ImageView im;
     protected ImageView im2;
-    private Label _palabra;
+    Label _palabra;
     protected Label _palabra2;
     
-    private int _id;
+    int _id;
     private int _inicio;
     private int _final;
     private int speed;
@@ -30,7 +30,7 @@ public abstract class Pez {
     protected boolean cruzo;
     
     abstract public void kill();
-    abstract public void mover(ImageView im);
+    abstract public void mover(ImageView image);
     abstract public int fila();
     abstract public ImageView getIm2();
     abstract public Label getWord();
@@ -87,6 +87,10 @@ public abstract class Pez {
     public void switchPalabras(){
         _palabra.setVisible(false);
         _palabra2.setVisible(true);
+    }
+    
+    public Label getWord2() {
+        return _palabra2;
     }
     
     public boolean isAlive() {

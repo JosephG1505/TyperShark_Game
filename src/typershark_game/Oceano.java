@@ -32,7 +32,7 @@ public class Oceano {
     public Oceano() {
         
         this._oceano = new Pane();
-        this.sharkToArray();
+        //this.sharkToArray();
         this.addSharktoOcean();
         System.out.println("321123213213213231321213231");
 
@@ -55,19 +55,19 @@ public class Oceano {
 
     }
     
-    public void sharkToArray(){
-        loadPalabras();
-        this._shark = new Shark(1);
-        //_shark.start();
-        this._tiburones = new ArrayList<>();
-        for(String p : palabras){
-            this._shark.setTiburon(p);
-            _tiburones.add(_shark);
-            System.out.println("shark in the tank");
-            
-        }
-        
-    }
+//    public void sharkToArray(){
+//        loadPalabras();
+//        this._shark = new Shark(1);
+//        //_shark.start();
+//        this._tiburones = new ArrayList<>();
+//        for(String p : palabras){
+//            this._shark.setTiburon(p);
+//            _tiburones.add(_shark);
+//            System.out.println("shark in the tank");
+//            
+//        }
+//        
+//    }
     
 //    public void addShark(Shark _shark){
 //        _shark.setVelocidad(1);
