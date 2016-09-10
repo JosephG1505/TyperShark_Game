@@ -51,20 +51,20 @@ public class Shark extends Pez {
         
         this._pane=new Pane();
    
-        Image image = new Image("file:tiburonb.png");
+        Image image = new Image("tiburon.gif");
         im = new ImageView();
         im.setImage(image);
         im.setFitWidth(300);
-        im.setPreserveRatio(true); //Mantiene equilibrada la imagen a escala
+        im.setPreserveRatio(true);
         im.setLayoutX(750);
         im.setLayoutY(fila());
          
-        Image image2 = new Image("file:brown.png");
+        Image image2 = new Image("color.png");
         im2 = new ImageView();
         im2.setImage(image2);
         im2.setFitWidth(600);
         im2.setFitHeight(40);
-        im2.setPreserveRatio(true); //Mantiene equilibrada la imagen a escala
+        im2.setPreserveRatio(true);
         im2.setLayoutX(800);
         im2.setLayoutY(fila()+200);
 
@@ -90,7 +90,7 @@ public class Shark extends Pez {
         this.cruzo=true;
         this._pane=new Pane();
 
-        Image image = new Image("file:tiburonb.png");
+        Image image = new Image("tiburon.gif");
         im = new ImageView();
         im.setImage(image);
         im.setFitWidth(300);
@@ -98,7 +98,7 @@ public class Shark extends Pez {
         im.setLayoutX(750);
         im.setLayoutY(fila());
 
-        Image image2 = new Image("file:brown.png");
+        Image image2 = new Image("color.png");
         im2 = new ImageView();
         im2.setImage(image2);
         im2.setFitWidth(600);
@@ -133,7 +133,7 @@ public class Shark extends Pez {
         this.cruzo=true;
         this._pane=new Pane();
              
-        Image image = new Image("file:tiburonb.png");
+        Image image = new Image("tiburon.gif");
         im = new ImageView();
         im.setImage(image);
         im.setFitWidth(300);
@@ -141,7 +141,7 @@ public class Shark extends Pez {
         im.setLayoutX(750);
         im.setLayoutY(fila());
          
-        Image image2 = new Image("file:brown.png");
+        Image image2 = new Image("color.png");
         im2 = new ImageView();
         im2.setImage(image2);
         im2.setFitWidth(600);
